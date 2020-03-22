@@ -11,14 +11,59 @@ hide_menu_style = """
         </style>
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
-
-delaware = 564696
-chester = 519293
-montgomery = 826075
-bucks = 628341
-philly = 1581000
-S_default = delaware + chester + montgomery + bucks + philly
-known_infections = 91 # update daily
+Chatham =77713
+Greene =21051
+Forsyth =383123
+Guilford =545348
+Harnett =137358
+Halifax =50838
+Randolph =145807
+Richmond =44993
+Vance =46142
+Onslow =204357
+Robeson =130529
+Rockingham =91830
+Wake =1109883
+Northampton =20258
+Durham =320322
+Hoke =55802
+Johnston =212401
+Orange =148610
+Pitt =181005
+Scotland =35690
+Warren =19898
+Anson =25289
+Bladen =34444
+Cumberland =333209
+Lee =62429
+Montgomery =27712
+Granville =62147
+Stanly =64236
+Nash =95923
+Pender =64578
+Person =40529
+Stokes =46360
+Duplin =59756
+Alamance =174055
+Davidson =170888
+Jones =10194
+Lenoir =55963
+Sampson =64458
+Wilson =82675
+Edgecombe =52447
+Moore =102950
+Wayne =126606
+Caswell =23666
+Franklin =70212
+UNCRegion = Chatham + Greene + Forsyth + Guilford + Harnett + Halifax\
+            + Randolph + Richmond + Vance + Onslow + Robeson + Rockingham\
+            + Wake + Northampton + Durham + Hoke + Johnston + Orange + Pitt\
+            + Scotland + Warren + Anson + Bladen + Cumberland + Lee\
+            + Montgomery + Granville + Stanly + Nash + Pender + Person + Stokes\
+            + Duplin + Alamance + Davidson + Jones + Lenoir + Sampson + Wilson\
+            + Edgecombe + Moore + Wayne + Caswell + Franklin
+S_default = UNCRegion
+known_infections = 255 # update daily
 known_cases = 4 # update daily
 
 # Widgets
@@ -47,7 +92,7 @@ vent_rate = (
 hosp_los = st.sidebar.number_input("Hospital Length of Stay", value=7, step=1, format="%i")
 icu_los = st.sidebar.number_input("ICU Length of Stay", value=9, step=1, format="%i")
 vent_los = st.sidebar.number_input("Vent Length of Stay", value=10, step=1, format="%i")
-Penn_market_share = (
+hosp_market_share = (
     st.sidebar.number_input(
         "Hospital Market Share (%)", 0.0, 100.0, value=15.0, step=1.0, format="%f"
     )
@@ -82,26 +127,16 @@ r_naught = r_t / (1-relative_contact_rate)
 doubling_time_t = 1/np.log2(beta*S - gamma +1) # doubling time after distancing
 
 def head():
-    st.markdown("""
-<link rel="stylesheet" href="https://www1.pennmedicine.org/styles/shared/penn-medicine-header.css">
-
-<div class="penn-medicine-header__content">
-    <a href="https://www.pennmedicine.org" class="penn-medicine-header__logo"
-        title="Go to the Penn Medicine home page">Penn Medicine</a>
-    <a id="title" class="penn-medicine-header__title">Penn Medicine - COVID-19 Hospital Impact Model for Epidemics</a>
-</div>
-    """, unsafe_allow_html=True)
-    st.markdown(
-        """*This tool was developed by the [Predictive Healthcare team](http://predictivehealthcare.pennmedicine.org/) at
-    Penn Medicine. For questions and comments please see our
-    [contact page](http://predictivehealthcare.pennmedicine.org/contact/). Code can be found on [Github](https://github.com/pennsignals/chime).
-    Join our [Slack channel](https://codeforphilly.org/chat?channel=covid19-chime-penn) if you would like to get involved!*""")
-
-    st.markdown(
+    
+st.title("North Carolina COVID-19 Hospital Impact Model for Epidemics")
+st.markdown(
+    """*This tool is based on the model developed by the [Predictive Healthcare team](http://predictivehealthcare.pennmedicine.org/) at Penn Medicine.  It was modified to be NC specific.""")
+st.markdown("""*For questions and comments about NC specifically please reach out to John Spencer (spencerjohn@gmail.com).""")
+st.markdown(
         """The estimated number of currently infected individuals is **{total_infections:.0f}**. The **{initial_infections}**
     confirmed cases in the region imply a **{detection_prob:.0%}** rate of detection. This is based on current inputs for
     Hospitalizations (**{current_hosp}**), Hospitalization rate (**{hosp_rate:.0%}**), Region size (**{S}**),
-    and Hospital market share (**{Penn_market_share:.0%}**).
+    and Hospital market share (**{hosp_market_share:.0%}**).
 
 An initial doubling time of **{doubling_time}** days and a recovery time of **{recovery_days}** days imply an $R_0$ of
 **{r_naught:.2f}**.
@@ -114,7 +149,7 @@ An initial doubling time of **{doubling_time}** days and a recovery time of **{r
         current_hosp=current_hosp,
         hosp_rate=hosp_rate,
         S=S,
-        Penn_market_share=Penn_market_share,
+        hosp_market_share=hosp_market_share,
         recovery_days=recovery_days,
         r_naught=r_naught,
         doubling_time=doubling_time,
@@ -206,22 +241,100 @@ We need to express the two parameters $\\beta$ and $\\gamma$ in terms of quantit
 - Since the rate of new infections in the SIR model is $g = \\beta S - \\gamma$, and we've already computed $\\gamma$, $\\beta$ becomes a function of the initial population size of susceptible individuals.
 $$\\beta = (g + \\gamma)$$.
 
-
 ### Initial Conditions
 
-- The total size of the susceptible population will be the entire catchment area for Penn Medicine entities (HUP, PAH, PMC, CCH)
-  - Delaware = {delaware}
-  - Chester = {chester}
-  - Montgomery = {montgomery}
-  - Bucks = {bucks}
-  - Philly = {philly}""".format(
-            delaware=delaware,
-            chester=chester,
-            montgomery=montgomery,
-            bucks=bucks,
-            philly=philly,
+- The total size of the susceptible population will be the estimated catchment area for a hospital in central NC
+  - Chatham ={Chatham}
+  - Greene  = {Greene}
+  - Forsyth = {Forsyth}
+  - Guilford = {Guilford}
+  - Harnett = {Harnett}
+  - Halifax = {Halifax}
+  - Randolph = {Randolph}
+  - Richmond = {Richmond}
+  - Vance = {Vance}
+  - Onslow = {Onslow}
+  - Robeson = {Robeson}
+  - Rockingham = {Rockingham}
+  - Wake = {Wake}
+  - Northampton = {Northampton}
+  - Durham = {Durham}
+  - Hoke = {Hoke}
+  - Johnston = {Johnston}
+  - Orange = {Orange}
+  - Pitt = {Pitt}
+  - Scotland = {Scotland}
+  - Warren = {Warren}
+  - Anson = {Anson}
+  - Bladen = {Bladen}
+  - Cumberland = {Cumberland}
+  - Lee = {Lee}
+  - Montgomery = {Montgomery}
+  - Granville = {Granville}
+  - Stanly = {Stanly}
+  - Nash = {Nash}
+  - Pender = {Pender}
+  - Person = {Person}
+  - Stokes = {Stokes}
+  - Duplin = {Duplin}
+  - Alamance = {Alamance}
+  - Davidson = {Davidson}
+  - Jones = {Jones}
+  - Lenoir = {Lenoir}
+  - Sampson = {Sampson}
+  - Wilson = {Wilson}
+  - Edgecombe = {Edgecombe}
+  - Moore = {Moore}
+  - Wayne = {Wayne}
+  - Caswell = {Caswell}
+  - Franklin = {Franklin}""".format(
+            Chatham =Chatham,
+            Greene  = Greene,
+            Forsyth = Forsyth,
+            Guilford = Guilford,
+            Harnett = Harnett,
+            Halifax = Halifax,
+            Randolph = Randolph,
+            Richmond = Richmond,
+            Vance = Vance,
+            Onslow = Onslow,
+            Robeson = Robeson,
+            Rockingham = Rockingham,
+            Wake = Wake,
+            Northampton = Northampton,
+            Durham = Durham,
+            Hoke = Hoke,
+            Johnston = Johnston,
+            Orange = Orange,
+            Pitt = Pitt,
+            Scotland = Scotland,
+            Warren = Warren,
+            Anson = Anson,
+            Bladen = Bladen,
+            Cumberland = Cumberland,
+            Lee = Lee,
+            Montgomery = Montgomery,
+            Granville = Granville,
+            Stanly = Stanly,
+            Nash = Nash,
+            Pender = Pender,
+            Person = Person,
+            Stokes = Stokes,
+            Duplin = Duplin,
+            Alamance = Alamance,
+            Davidson = Davidson,
+            Jones = Jones,
+            Lenoir = Lenoir,
+            Sampson = Sampson,
+            Wilson = Wilson,
+            Edgecombe = Edgecombe,
+            Moore = Moore,
+            Wayne = Wayne,
+            Caswell = Caswell,
+            Franklin = Franklin,
         )
     )
+
     return None
 
 if st.checkbox("Show more info about this tool"):
@@ -278,7 +391,7 @@ data_dict = dict(zip(["day", "hosp", "icu", "vent"], data_list))
 projection = pd.DataFrame.from_dict(data_dict)
 
 st.subheader("New Admissions")
-st.markdown("Projected number of **daily** COVID-19 admissions at Penn hospitals")
+st.markdown("Projected number of **daily** COVID-19 admissions at Central NC hospitals")
 
 # New cases
 projection_admits = projection.iloc[:-1, :] - projection.shift(1)
@@ -319,7 +432,7 @@ if st.checkbox("Show Projected Admissions in tabular form"):
 
 st.subheader("Admitted Patients (Census)")
 st.markdown(
-    "Projected **census** of COVID-19 patients, accounting for arrivals and discharges at Penn hospitals"
+    "Projected **census** of COVID-19 patients, accounting for arrivals and discharges at central NC hospitals"
 )
 
 def _census_table(projection_admits, hosp_los, icu_los, vent_los) -> pd.DataFrame:
@@ -446,3 +559,4 @@ st.markdown(
     """
 )
 st.markdown("© 2020, The Trustees of the University of Pennsylvania")
+st.markdown("Forked from original site by John Spencer - spencerjohn@gmail.com")
