@@ -128,11 +128,9 @@ doubling_time_t = 1/np.log2(beta*S - gamma +1) # doubling time after distancing
 
 def head():   
     st.title("North Carolina COVID-19 Hospital Impact Model for Epidemics")
-    st.markdown(
-        """*This tool is based on the model developed by the [Predictive Healthcare team](http://predictivehealthcare.pennmedicine.org/) at Penn Medicine.  It was modified to be NC specific.""")
+    st.markdown("""*This tool is based on the model developed by the [Predictive Healthcare team](http://predictivehealthcare.pennmedicine.org/) at Penn Medicine.  It was modified to be NC specific.""")
     st.markdown("""*For questions and comments about NC specifically please reach out to John Spencer (spencerjohn@gmail.com).""")
-    st.markdown(
-            """The estimated number of currently infected individuals is **{total_infections:.0f}**. The **{initial_infections}**
+    st.markdown("""The estimated number of currently infected individuals is **{total_infections:.0f}**. The **{initial_infections}**
         confirmed cases in the region imply a **{detection_prob:.0%}** rate of detection. This is based on current inputs for
         Hospitalizations (**{current_hosp}**), Hospitalization rate (**{hosp_rate:.0%}**), Region size (**{S}**),
         and Hospital market share (**{hosp_market_share:.0%}**).
