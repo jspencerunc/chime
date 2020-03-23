@@ -134,26 +134,26 @@ def head():
         confirmed cases in the region imply a **{detection_prob:.0%}** rate of detection. This is based on current inputs for
         Hospitalizations (**{current_hosp}**), Hospitalization rate (**{hosp_rate:.0%}**), Region size (**{S}**),
         and Hospital market share (**{hosp_market_share:.0%}**).
-        """.format(
-               total_infections=total_infections,
-               initial_infections=initial_infections,
-               detection_prob=detection_prob,
-               current_hosp=current_hosp,
-               hosp_rate=hosp_rate,
-               S=S,
-               hosp_market_share=hosp_market_share,
-               recovery_days=recovery_days,
-               r_naught=r_naught)
-       )
 
-    st.markdown("""An initial doubling time of **{doubling_time}** days and a recovery time of **{recovery_days}** days imply an $R_0$ of **{r_naught:.2f}**.).
-        **Mitigation**: A **{relative_contact_rate:.0%}** reduction in social contact after the onset of the outbreak reduces the doubling time to **{doubling_time_t:.1f}** days, implying an effective $R_t$ of **${r_t:.2f}$**.
-        """.format(
-                doubling_time=doubling_time,
-                relative_contact_rate=relative_contact_rate,
-                r_t=r_t,
-                doubling_time_t=doubling_time_t)
-        )
+
+ An initial doubling time of **{doubling_time}** days and a recovery time of **{recovery_days}** days imply an $R_0$ of **{r_naught:.2f}**.). 
+ **Mitigation**: A **{relative_contact_rate:.0%}** reduction in social contact after the onset of the outbreak reduces the doubling time to **{doubling_time_t:.1f}** days, implying an effective $R_t$ of **${r_t:.2f}$**.
+ """.format(
+        total_infections=total_infections,
+        initial_infections=initial_infections,
+        detection_prob=detection_prob,
+        current_hosp=current_hosp,
+        hosp_rate=hosp_rate,
+        S=S,
+        hosp_market_share=hosp_market_share,
+        recovery_days=recovery_days,
+        r_naught=r_naught,
+        doubling_time=doubling_time,
+        relative_contact_rate=relative_contact_rate,
+        r_t=r_t,
+        doubling_time_t=doubling_time_t
+    )
+    )
     return None
 
 head()
