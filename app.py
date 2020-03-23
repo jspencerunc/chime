@@ -154,7 +154,7 @@ def head():
             doubling_time_t=doubling_time_t
         )
         )
-        return None
+    return None
 
 head()
 
