@@ -150,7 +150,8 @@ def head():
                 doubling_time=doubling_time,
                 relative_contact_rate=relative_contact_rate,
                 r_t=r_t,
-                doubling_time_t=doubling_time_t))
+                doubling_time_t=doubling_time_t)
+               )
     return None
 
 head()
