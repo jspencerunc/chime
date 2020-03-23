@@ -106,7 +106,7 @@ initial_infections = st.sidebar.number_input(
     "Currently Known Regional Infections (only used to compute detection rate - does not change projections)", value=known_infections, step=10, format="%i"
 )
 
-total_infections = current_hosp / Penn_market_share / hosp_rate
+total_infections = current_hosp / hosp_market_share / hosp_rate
 detection_prob = initial_infections / total_infections
 
 S, I, R = S, initial_infections / detection_prob, 0
