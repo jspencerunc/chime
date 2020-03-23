@@ -134,7 +134,7 @@ def head():
         confirmed cases in the region imply a **{detection_prob:.0%}** rate of detection. This is based on current inputs for
         Hospitalizations (**{current_hosp}**), Hospitalization rate (**{hosp_rate:.0%}**), Region size (**{S}**),
         and Hospital market share (**{hosp_market_share:.0%}**).
-        """format(
+        """.format(
                total_infections=total_infections,
                initial_infections=initial_infections,
                detection_prob=detection_prob,
